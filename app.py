@@ -19,7 +19,7 @@ st.sidebar.header("🎯 您的投資偏好")
 tickers = st.sidebar.multiselect(
     "選擇資產 (可複選)",
     options=["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "TSLA", "META", "^TWII", "BTC-USD", "GC=F"],
-    default=["NVDA", "AAPL", "MSFT", "GOOGL", "TSLA", "BTC-USD"]
+    default=["NVDA", "TSLA", "BTC-USD", "AAPL", "MSFT"]
 )
 
 investment_amount = st.sidebar.number_input("投資總金額 (USD)", 
@@ -37,7 +37,7 @@ risk_preference = st.sidebar.selectbox(
     options=["保守型", "平衡型", "積極型"]
 )
 
-max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 80, 50) / 100
+max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 80, 60) / 100
 
 # ==================== 主畫面 ====================
 if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
@@ -113,8 +113,12 @@ if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
                         "• 增加高成長資產（如 NVDA, TSLA, BTC-USD）\n"
                         "• 放寬「單一資產最高權重」\n"
                         "• 減少資產數量試試看")
-                st.write("目前選擇資產：", tickers)
-                st.write("目標年化報酬率：", target_annual_return*100, "%")
+                #st.write("目前選擇資產：", tickers)
+                #st.write("目標年化報酬率：", target_annual_return*100, "%")
+                st.write("選擇的資產：", tickers)
+                st.write("目標年化報酬率：", f"{target_annual_return*100:.1f}%")
+                st.write("單一資產最高權重：", f"{max_single_weight*100:.0f}%")
+                st.write("過去2年各資產年化報酬率（%）：", (returns.mean() * 252 * 100).round(2))
 
 else:
     st.info("👈 請在左側側邊欄調整參數，然後點擊「開始優化投資組合」按鈕")
