@@ -35,4 +35,4 @@ def optimize_portfolio(mean_returns, cov_matrix, risk_free_rate=0.0,
     if weights.value is None:
         raise ValueError("優化失敗，請降低目標報酬率、增加高成長資產，或放寬單一資產權重")
     
-    return weights.value, np.sqrt(portfolio_risk.value), portfolio_return.value
+    return np.array(weights.value), float(np.sqrt(portfolio_risk.value)), float(portfolio_return.value)
