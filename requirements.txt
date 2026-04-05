@@ -7,3 +7,4 @@ cvxpy
 plotly
 matplotlib
 seaborn
+ecos
