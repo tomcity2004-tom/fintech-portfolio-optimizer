@@ -19,7 +19,7 @@ st.sidebar.header("🎯 您的投資偏好")
 tickers = st.sidebar.multiselect(
     "選擇資產 (可複選)",
     options=["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "TSLA", "META", "^TWII", "BTC-USD", "GC=F"],
-    default=["AAPL", "MSFT", "GOOGL", "NVDA"]
+    default=["NVDA", "AAPL", "MSFT", "GOOGL", "TSLA", "BTC-USD"]
 )
 
 investment_amount = st.sidebar.number_input("投資總金額 (USD)", 
@@ -37,7 +37,7 @@ risk_preference = st.sidebar.selectbox(
     options=["保守型", "平衡型", "積極型"]
 )
 
-max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 50, 35) / 100
+max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 80, 50) / 100
 
 # ==================== 主畫面 ====================
 if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
@@ -108,7 +108,13 @@ if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
                 
             except Exception as e:
                 st.error(f"發生錯誤：{str(e)}")
-                st.info("建議：減少目標報酬率、減少資產數量，或檢查網路連線")
+                st.info("💡 除錯建議：\n"
+                        "• 請降低「目標年化報酬率」\n"
+                        "• 增加高成長資產（如 NVDA, TSLA, BTC-USD）\n"
+                        "• 放寬「單一資產最高權重」\n"
+                        "• 減少資產數量試試看")
+                st.write("目前選擇資產：", tickers)
+                st.write("目標年化報酬率：", target_annual_return*100, "%")
 
 else:
     st.info("👈 請在左側側邊欄調整參數，然後點擊「開始優化投資組合」按鈕")
