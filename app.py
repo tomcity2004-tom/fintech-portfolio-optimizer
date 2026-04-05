@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import numpy as np
 
 from data_fetcher import fetch_historical_data, get_risk_free_rate
 from portfolio_optimizer import optimize_portfolio, calculate_portfolio_metrics
@@ -19,7 +20,7 @@ st.sidebar.header("🎯 您的投資偏好")
 tickers = st.sidebar.multiselect(
     "選擇資產 (可複選)",
     options=["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "TSLA", "META", "^TWII", "BTC-USD", "GC=F"],
-    default=["NVDA", "TSLA", "BTC-USD", "AAPL", "MSFT"]
+    default=["NVDA", "AAPL", "MSFT", "TSLA"]
 )
 
 investment_amount = st.sidebar.number_input("投資總金額 (USD)", 
@@ -37,7 +38,7 @@ risk_preference = st.sidebar.selectbox(
     options=["保守型", "平衡型", "積極型"]
 )
 
-max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 80, 60) / 100
+max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 80, 50) / 100
 
 # ==================== 主畫面 ====================
 if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
