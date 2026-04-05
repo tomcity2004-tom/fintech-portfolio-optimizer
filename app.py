@@ -65,13 +65,21 @@ if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
                 
                 # ==================== 顯示結果 ====================
                 col1, col2, col3, col4 = st.columns(4)
+
+                # 強制轉成 float（避免 Series 問題）
+                exp_return_annual = float(expected_return * 252 * 100)
+                risk_annual = float(risk * np.sqrt(252) * 100)
+                sharpe_ratio = float((expected_return * 252 - rf_rate * 252) / (risk * np.sqrt(252)))
+
                 with col1:
-                    st.metric("預期年化報酬率", f"{expected_return*252*100:.2f}%")
+                    st.metric("預期年化報酬率", f"{exp_return_annual:.2f}%")
+
                 with col2:
-                    st.metric("年化風險 (波動率)", f"{risk*np.sqrt(252)*100:.2f}%")
+                    st.metric("年化風險 (波動率)", f"{risk_annual:.2f}%")
+
                 with col3:
-                    sharpe = (expected_return*252 - rf_rate*252) / (risk * np.sqrt(252))
-                    st.metric("夏普比率 (Sharpe)", f"{sharpe:.2f}")
+                    st.metric("夏普比率 (Sharpe)", f"{sharpe_ratio:.2f}")
+
                 with col4:
                     st.metric("投資金額", f"${investment_amount:,.0f}")
                 
@@ -79,8 +87,8 @@ if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
                 st.subheader("📊 最佳投資組合權重配置")
                 weight_df = pd.DataFrame({
                     "資產": tickers,
-                    "權重 (%)": weights * 100
-                }).round(2)
+                    "權重 (%)": (weights * 100).round(2)   # weights 如果是 array 就直接轉
+                }).reset_index(drop=True)
                 
                 col_a, col_b = st.columns([2, 1])
                 with col_a:
