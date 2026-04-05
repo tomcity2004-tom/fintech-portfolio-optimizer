@@ -28,9 +28,9 @@ investment_amount = st.sidebar.number_input("投資總金額 (USD)",
                                           step=10000)
 
 target_annual_return = st.sidebar.slider("目標年化報酬率 (%)", 
-                                       min_value=5, 
-                                       max_value=30, 
-                                       value=12) / 100
+                                       min_value=0, 
+                                       max_value=25, 
+                                       value=10) / 100
 
 risk_preference = st.sidebar.selectbox(
     "風險偏好等級",
