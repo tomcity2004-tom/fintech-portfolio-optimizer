@@ -28,10 +28,10 @@ investment_amount = st.sidebar.number_input("投資總金額 (USD)",
                                           value=100000, 
                                           step=10000)
 
-target_annual_return = st.sidebar.slider("目標年化報酬率 (%)", 
-                                       min_value=0, 
-                                       max_value=20, 
-                                       value=6) / 100
+#target_annual_return = st.sidebar.slider("目標年化報酬率 (%)", 
+#                                       min_value=0, 
+#                                       max_value=20, 
+#                                       value=6) / 100
 
 risk_preference = st.sidebar.selectbox(
     "風險偏好等級",
@@ -59,7 +59,7 @@ if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
                     mean_returns, 
                     cov_matrix, 
                     risk_free_rate=rf_rate,
-                    target_return=target_annual_return,
+                    target_return=None, #target_annual_return,
                     max_weight=max_single_weight
                 )
                 
