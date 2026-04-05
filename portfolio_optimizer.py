@@ -5,6 +5,8 @@ import pandas as pd
 
 def calculate_portfolio_metrics(returns: pd.DataFrame):
     """計算平均報酬與共變異數矩陣"""
+    if returns.empty:
+        raise ValueError("報酬率資料為空")
     mean_returns = returns.mean()
     cov_matrix = returns.cov()
     return mean_returns, cov_matrix

@@ -1,28 +1,29 @@
 # data_fetcher.py
 import yfinance as yf
 import pandas as pd
-from datetime import datetime
 
 def fetch_historical_data(tickers: list, period: str = "2y"):
     """
-    從 Yahoo Finance 下載歷史調整收盤價
+    從 Yahoo Finance 下載歷史資料（使用調整後的 Close 價格）
     """
     if not tickers:
         raise ValueError("請至少選擇一個資產")
     
-    data = yf.download(tickers, period=period, auto_adjust=True, progress=False)['Adj Close']
-    data = data.dropna()  # 移除有缺失值的日期
+    # 關鍵修改：明確設定 auto_adjust=True，並只取 Close 欄位
+    data = yf.download(tickers, period=period, auto_adjust=True, progress=False)
     
-    if data.empty:
-        raise ValueError("無法取得資料，請檢查網路或資產代碼")
+    # 如果是多個資產，data 是 MultiIndex，需要取出 Close
+    if len(tickers) > 1:
+        if isinstance(data.columns, pd.MultiIndex):
+            prices = data['Close']          # 現在 Close 就是調整後價格
+        else:
+            prices = data
+    else:
+        prices = data['Close'].to_frame(name=tickers[0])
     
-    return data
-
-def get_risk_free_rate():
-    """取得美國3個月公債收益率作為無風險利率"""
-    try:
-        rf_data = yf.download("^IRX", period="5d", progress=False)['Adj Close']
-        rf = rf_data.iloc[-1] / 100  # 轉成小數
-        return rf / 252  # 轉成日化無風險利率
-    except:
-        return 0.0001  # 若失敗，使用預設小值
+    prices = prices.dropna()  # 移除有缺失值的日期
+    
+    if prices.empty:
+        raise ValueError("無法取得資料，請檢查網路或資產代碼是否正確")
+    
+    return prices
