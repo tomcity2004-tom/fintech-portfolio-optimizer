@@ -30,15 +30,15 @@ investment_amount = st.sidebar.number_input("投資總金額 (USD)",
 
 target_annual_return = st.sidebar.slider("目標年化報酬率 (%)", 
                                        min_value=0, 
-                                       max_value=25, 
-                                       value=8) / 100
+                                       max_value=20, 
+                                       value=6) / 100
 
 risk_preference = st.sidebar.selectbox(
     "風險偏好等級",
     options=["保守型", "平衡型", "積極型"]
 )
 
-max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 80, 50) / 100
+max_single_weight = st.sidebar.slider("單一資產最高權重 (%)", 20, 90, 60) / 100
 
 # ==================== 主畫面 ====================
 if st.sidebar.button("🚀 開始優化投資組合", type="primary"):
