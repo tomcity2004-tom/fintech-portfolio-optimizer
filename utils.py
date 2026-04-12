@@ -15,7 +15,16 @@ def monte_carlo_simulation(returns: pd.DataFrame, weights: np.ndarray,
     return cum_returns
 
 def calculate_var_cvar(simulation_results: np.ndarray, confidence: float = 0.95):
-    final_returns = simulation_results[-1, :]
-    var = np.percentile(final_returns, (1 - confidence) * 100)
-    cvar = final_returns[final_returns <= var].mean()
+    """計算 95% VaR 和 CVaR（正確版本）"""
+    final_returns = simulation_results[-1, :]           # 最後一天的累積報酬
+    
+    # 計算報酬率變化（相對於初始1.0）
+    returns_change = final_returns - 1.0
+    
+    # VaR：95%信心水準下的最大損失（應為負數）
+    var = np.percentile(returns_change, (1 - confidence) * 100)
+    
+    # CVaR：超過VaR的平均損失
+    cvar = returns_change[returns_change <= var].mean()
+    
     return var, cvar
