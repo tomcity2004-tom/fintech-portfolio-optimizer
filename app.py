@@ -62,7 +62,7 @@ def show_main_app():
 
     tickers = st.sidebar.multiselect(
         "選擇資產 (可複選)",
-        options=["AAPL", "MSFT", "GOOGL", "NVDA", "TSLA", "BTC-USD", "^TWII"],
+        options=["AAPL", "MSFT", "GOOGL", "NVDA", "TSLA", "BTC-USD", "^HSI"],
         default=["NVDA", "AAPL", "MSFT", "TSLA"]
     )
 
