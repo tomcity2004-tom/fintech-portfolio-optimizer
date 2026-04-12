@@ -14,3 +14,15 @@
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
+
+##專案結構
+
+```bash
+fintech-portfolio-optimizer/
+├── app.py                          ← 主程式入口（Login + 主要介面）
+├── data_fetcher.py                 ← 資料抓取模組
+├── portfolio_optimizer.py          ← 核心優化模型
+├── utils.py                        ← 輔助工具函數（Monte Carlo & 風險指標）
+├── requirements.txt                ← 套件清單
+├── .streamlit/config.toml          ← Streamlit 介面美化設定
+└── README.md
