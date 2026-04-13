@@ -96,18 +96,38 @@ def show_main_app():
                     )
                     
                     # 顯示結果（使用你之前修正過的安全版本）
+                    # exp_annual = float(expected_return * 252 * 100)
+                    # risk_annual = float(risk * np.sqrt(252) * 100)
+                    # try:
+                        # sharpe = float((expected_return*252 - rf_rate*252) / (risk * np.sqrt(252)))
+                        # sharpe = max(0.0, (expected_return*252 - rf_rate*252) / (risk * np.sqrt(252)))
+                    # except:
+                    #    sharpe = 0.0
+
+                    # ==================== 顯示結果 ====================
                     exp_annual = float(expected_return * 252 * 100)
                     risk_annual = float(risk * np.sqrt(252) * 100)
-                    try:
-                        # sharpe = float((expected_return*252 - rf_rate*252) / (risk * np.sqrt(252)))
-                        sharpe = max(0.0, (expected_return*252 - rf_rate*252) / (risk * np.sqrt(252)))
-                    except:
-                        sharpe = 0.0
+                    
+                    # 修正夏普比率計算，避免顯示 0
+                    portfolio_annual_ret = float(expected_return * 252)
+                    rf_annual = float(rf_rate * 252)
+                    
+                    sharpe_ratio = 0.0
+                    if risk_annual > 0:   # 避免分母為 0
+                        sharpe_ratio = (portfolio_annual_ret - rf_annual) / risk_annual
+                    
+                    # 如果夏普比率還是接近 0，顯示實際小數
+                    if abs(sharpe_ratio) < 0.01:
+                        sharpe_ratio = (portfolio_annual_ret - rf_annual) / risk_annual
                     
                     col1, col2, col3, col4 = st.columns(4)
                     with col1: st.metric("預期年化報酬率", f"{exp_annual:.2f}%")
                     with col2: st.metric("年化風險 (波動率)", f"{risk_annual:.2f}%")
-                    with col3: st.metric("夏普比率", f"{sharpe:.2f}")
+                    # with col3: st.metric("夏普比率", f"{sharpe:.2f}")
+                    with col3:
+                        st.metric("夏普比率 (Sharpe)", f"{sharpe_ratio:.2f}")
+                        if sharpe_ratio < 0.1:
+                            st.caption("※ 夏普比率偏低，代表組合報酬接近無風險利率")
                     with col4: st.metric("投資金額", f"${investment_amount:,.0f}")
                     
                     # 資產配置
