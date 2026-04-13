@@ -99,7 +99,8 @@ def show_main_app():
                     exp_annual = float(expected_return * 252 * 100)
                     risk_annual = float(risk * np.sqrt(252) * 100)
                     try:
-                        sharpe = float((expected_return*252 - rf_rate*252) / (risk * np.sqrt(252)))
+                        # sharpe = float((expected_return*252 - rf_rate*252) / (risk * np.sqrt(252)))
+                        sharpe = max(0.0, (expected_return*252 - rf_rate*252) / (risk * np.sqrt(252)))
                     except:
                         sharpe = 0.0
                     
